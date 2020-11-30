@@ -1,0 +1,13 @@
+#!/bin/bash
+for f in *; do
+    if [[ -f $f ]]; then 
+        if [ $f == "refresh" ]; then 
+            continue
+        else
+            if test `find ${f} -mtime 5`
+            then 
+                mv $f ./todo
+            fi
+        fi
+    fi
+done
