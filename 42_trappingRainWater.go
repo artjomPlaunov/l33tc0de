@@ -1,4 +1,46 @@
+func max(x,y int) int {
+    if x > y {
+        return x
+    } else {
+        return y
+    }
+}
+
+func min(x,y int) int {
+    if x < y {
+        return x
+    } else {
+        return y
+    }
+}
+
+
 func trap(height []int) int {
+    
+    if len(height) == 0 {
+        return 0
+    }
+    
+    maxSeenRight := make([]int,len(height))
+    maxRight := height[len(height)-1]
+    for i := len(height)-2; i >= 1; i-- {
+        if height[i+1] > maxRight {
+            maxRight = height[i+1]
+        }
+        maxSeenRight[i] = maxRight
+    } 
+    maxSeenLeft := height[0]
+    res := 0
+    for i := 1; i < len(height)-1; i++ {
+        res += max(min(maxSeenLeft,maxSeenRight[i])-height[i],0)
+        if height[i] > maxSeenLeft {
+            maxSeenLeft = height[i]
+        }
+    }
+    return res
+
+    /*  O(MN) solution, where M is the max height in the array and N is length of 
+        array.
     max := 0
     for _,v := range height {
         if v > max {
@@ -24,4 +66,5 @@ func trap(height []int) int {
         }
     }
     return res
+    */
 }
