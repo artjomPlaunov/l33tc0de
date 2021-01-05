@@ -27,4 +27,47 @@ class Solution:
                 self.DFS(candidates[1:], target-(num*i))
                 for j in range(i):
                     self.curPath.pop(-1)
-        
+ 
+ '''
+ DP Solution
+
+ from collections import defaultdict
+
+class Solution:
+    def combinationSum(self, coins: List[int], target: int) -> List[List[int]]:
+        memo = defaultdict(list)
+        self.DP(0,target,coins,memo)
+        return memo[(0,target)]
+        print(memo)
+
+    def DP(self, index, target, coins, memo):
+        if (index,target) in memo:
+            return
+        elif index == len(coins)-1:
+            coin = coins[index]
+            if target % coin == 0:
+                res = []
+                k = target//coin
+                for i in range(k):
+                    res.append(coin)
+                memo[(index,target)] = [res]
+            return
+        coin = coins[index]
+        k = target // coin
+
+        for i in range(0,k+1):
+            change = target-(i*coin)
+            if change == 0:
+                res = []
+                for i in range(target//coin):
+                    res.append(coin)
+                memo[(index,target)].append(res)
+            else:
+                self.DP(index+1,change, coins, memo)
+                if memo[(index+1,change)]:
+                    for solution in memo[(index+1,change)]:
+                        cpy = copy.deepcopy(solution)
+                        for j in range(i):
+                            cpy.append(coin)
+                        memo[(index,target)].append(cpy)
+'''
